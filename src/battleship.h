@@ -58,5 +58,11 @@ int check_starting_point(int x, int y,char *array);
 int askDirection (int x, int y, char* array, int*shipType,ship *ships);
 int checkDirection (int x, int y, char *array, int*shipType ,int *direction,ship *ships);
 
+void fullscreen();
+void print_ships (ship *ships);
+
+int check_hit(int x , int y , char *array, ship *ships);
+int ask_hit(int *turn);
+
 
 #endif /* BATTLESHIP_H_ */

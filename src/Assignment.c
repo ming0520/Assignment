@@ -14,12 +14,6 @@
 #include <windows.h>
 #include "battleship.h"
 
-void fullscreen();
-void print_ships (ship *ships);
-
-int check_hit(int x , int y , char *array);
-int ask_hit(int *turn);
-
 ship ships1[15] =
 {
     {"Carrier",carrier_size},
@@ -98,13 +92,13 @@ void print_ships (ship *ships){
         for(int k = 0; k < 5; k++){
             printf("%s ",ships->name);
             printf("x = %i ",ships->position[k].x);
-            printf("y = %i     ",ships->position[k].y);
+            printf("y = %i ",ships->position[k].y);
             printf("\n");
         }
 
 }
 
-int check_hit(int x , int y , char *array){
+int check_hit(int x , int y , char *array, ship *ships){
     int position = x * ROWS + y;
     switch(array[position]){
         case WATER:
@@ -130,6 +124,7 @@ int check_hit(int x , int y , char *array){
 
 int ask_hit(int *turn){
     int player = 0;
+    ship *ships;
     char *array;
     *turn %= 2;
 
@@ -137,10 +132,12 @@ int ask_hit(int *turn){
         case 0:
             player = 1;
             array = &array1[0][0];
+            ships = &ships1[*turn];
             break;
         case 1:
             player = 2;
             array = &array1[0][0];
+            ships = &ships1[*turn];
             break;
         default:
             printf("Invalid player\n");
@@ -177,7 +174,7 @@ int ask_hit(int *turn){
            counter ++;
        }while((start_x < 0 || start_x > 9) || (start_y < 0 || start_y > 9 ));// if (0 - 9) and if (A - Z)
 
-       switch(check_hit(start_x,start_y,array)){
+       switch(check_hit(start_x,start_y,array,ships)){
            case 0:
                return 0;
            case 1:
