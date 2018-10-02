@@ -408,6 +408,7 @@ int checkDirection (int x, int y, char *array, int*shipType ,int *direction, shi
         }
     }
     else if(*direction == W) {
+        valid = 0;
         int col = (x * ROWS + y)/10;
         for (int j = 0; j < shipSize; j++){
             y--;
@@ -419,22 +420,29 @@ int checkDirection (int x, int y, char *array, int*shipType ,int *direction, shi
         for (int i = 0; i < shipSize; i++) {
             y--;
             if(col == (x * ROWS + y)/10) {
-                if(array[ x * ROWS + y] == WATER) {
-                    x = x_backup; y = y_backup;
-                    for(int i  = 0; i < shipSize; i++) {
-                        y--;
-                        array [ x * ROWS + y ] = SHIP;
-                        ships->position[i+1].x = x;
-                        ships->position[i+1].y = y;
-                    }
+                if(array[ x * ROWS + y] != WATER) {
+                    valid = 1;
+                    return 1;
                 }
             }
             else{
                 return 1;
             }
+        }
+        if(valid == 0){
+            x = x_backup; y = y_backup;
+            for(int i  = 0; i < shipSize; i++) {
+                y--;
+                array [ x * ROWS + y ] = SHIP;
+                ships->position[i+1].x = x;
+                ships->position[i+1].y = y;
+            }
+        }else{
+            return 1;
         }
     }
     else if(*direction == E) {
+        valid = 0;
         int col = (x * ROWS + y)/10;
         for (int j = 0; j < shipSize; j++){
             y++;
@@ -446,19 +454,25 @@ int checkDirection (int x, int y, char *array, int*shipType ,int *direction, shi
         for (int i = 0; i < shipSize; i++) {
             y++;
             if(col == (x * ROWS + y)/10) {
-                if(array[ x * ROWS + y] == WATER) {
-                    x = x_backup; y = y_backup;
-                    for(int i  = 0; i < shipSize; i++) {
-                        y++;
-                        array [ x * ROWS + y ] = SHIP;
-                        ships->position[i+1].x = x;
-                        ships->position[i+1].y = y;
-                    }
+                if(array[ x * ROWS + y] != WATER) {
+                    valid = 1;
+                    return 1;
                 }
             }
             else{
                 return 1;
             }
+        }
+        if(valid == 0){
+            x = x_backup; y = y_backup;
+            for(int i  = 0; i < shipSize; i++) {
+                y++;
+                array [ x * ROWS + y ] = SHIP;
+                ships->position[i+1].x = x;
+                ships->position[i+1].y = y;
+            }
+        }else{
+            return 1;
         }
     }
 
