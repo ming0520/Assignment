@@ -63,6 +63,7 @@ void print_ships (ship *ships);
 
 int check_hit(int x , int y , char *array, ship *ships);
 int ask_hit(int *turn);
+int check_ships(int x,int y, ship *ships);
 
 
 #endif /* BATTLESHIP_H_ */

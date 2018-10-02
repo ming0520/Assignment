@@ -46,24 +46,40 @@ int main(void)
     initialize_grid(&array2[0][0]);
 
     //ask player 1 to deploy the ship
-    for (int turn = 0; turn < 15; turn++){
+    for (int turn = 0; turn < 15; turn+=7){
         player = 1;
         setShip(&player,&turn);
-        print_ships(&ships1[turn]);
-        getchar();
+        system("cls");
+        printf("===================================================\n");
+    }
+    for (int turn = 0; turn < 15; turn+=7){
+        player = 2;
+        setShip(&player,&turn);
         system("cls");
         printf("===================================================\n");
     }
 
     system("cls");
-    print_grid(&array1[0][0]);
 
-
-    for(int turn = 0; turn < 100; turn++){
+    for(int turn = 0; turn < 200; turn++){
+        switch(turn % 2){
+            case 0:
+                printf("                 Player2 BOARD\n");
+                printf("===================================================\n");
+                print_grid(&array2[0][0]);
+                break;
+            case 1:
+                printf("                 Player 1 BOARD\n");
+                printf("===================================================\n");
+                print_grid(&array1[0][0]);
+                break;
+            default:
+                printf("Attack print grid problem\n");
+        }
         ask_hit(&turn);
         system("cls");
-        print_grid(&array1[0][0]);
     }
+
 
 }
 
@@ -89,7 +105,7 @@ void fullscreen()/* function definition for
 
 
 void print_ships (ship *ships){
-        for(int k = 0; k < 5; k++){
+        for(int k = 0; k < ships->size; k++){
             printf("%s ",ships->name);
             printf("x = %i ",ships->position[k].x);
             printf("y = %i ",ships->position[k].y);
@@ -98,27 +114,57 @@ void print_ships (ship *ships){
 
 }
 
+int check_ships(int x,int y, ship *ships){
+    for (int i = 0; i < 15; i++ ){
+        for(int j = 0; j < ships->size; j++){
+            if(ships[i].position[j].x == x && ships[i].position[j].y == y){
+                ships[i].position[j].x = 0;
+                ships[i].position[j].y = 0;
+                //print_ships(&ships[i]); // to display ships coordinate in struct (testing purpose)
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < 15; i++){
+        if(ships[i].position[0].x == 0 && ships[i].position[1].x == 0 && ships[i].position[2].x == 0  && ships[i].position[3].x == 0  && ships[4].position[4].x == 0){
+            if(ships[i].position[0].y == 0 && ships[i].position[1].y == 0 && ships[i].position[2].y == 0 && ships[i].position[3].y == 0 && ships[i].position[4].y == 0){
+                printf("%s\tSUNK!\n",ships[i].name);
+            }
+        }
+    }
+    return 0;
+}
+
 int check_hit(int x , int y , char *array, ship *ships){
     int position = x * ROWS + y;
+    system("cls");
     switch(array[position]){
         case WATER:
-            printf("Miss Shot\n");
             array[position] = MISS;
+            print_grid(array);
+            printf("Miss Shot\n");
             break;
         case SHIP:
-            printf("HIT!");
             array[position] = HIT;
+            print_grid(array);
+            printf("HIT!\n\n");
+            check_ships(x, y, ships);
             break;
         case MISS:
         case HIT:
+            print_grid(array);
             printf("This place is shot before\n");
             return 1;
             break;
         default:
+            print_grid(array);
             printf("Shot error\n");
             return 1;
             break;
     }
+    printf("Press <ENTER> to continue...\n");
+    getchar();
     return 0;
 }
 
@@ -131,13 +177,13 @@ int ask_hit(int *turn){
     switch(*turn){
         case 0:
             player = 1;
-            array = &array1[0][0];
-            ships = &ships1[*turn];
+            array = &array2[0][0];
+            ships = &ships2[0];
             break;
         case 1:
             player = 2;
             array = &array1[0][0];
-            ships = &ships1[*turn];
+            ships = &ships1[0];
             break;
         default:
             printf("Invalid player\n");
@@ -541,6 +587,9 @@ int setShip (int *player, int*turn){
             break;
     }
 
+     system("cls");
+     printf("                 Player %i BOARD\n",*player);
+     printf("===================================================\n");
      print_grid(array);
 
     //Display the rule
