@@ -1,9 +1,13 @@
-/*
- * battleship.h
- *
- *  Created on: Oct 1, 2018
- *      Author: user
- */
+/*==============================================================================
+ | Filename: battleship.h
+ | Programmer: Tan Zhong Ming
+ | Programming Assignment Introduction to Programming 2018: Battleship in Standard C
+ | Date: October 10, 2018
+ +------------------------------------------------------------------------------
+ | Description: Thie file contains all the function definition of the prototypes
+ |              listed in battleship.h These are the functions necessary to run
+ |              the game of Battleship.
+ ==============================================================================*/
 
 #ifndef BATTLESHIP_H_
 #define BATTLESHIP_H_
@@ -32,9 +36,13 @@ int W = 4;
 #define SHIP    'O'
 #define HIT     'H'
 #define MISS    'X'
+#define WIN_CONDITION 45
 
 char array1 [ROWS][COLS];
 char array2 [ROWS][COLS];
+
+int player1_hit = 0;
+int player2_hit = 1;
 
 int player = 0;
 
@@ -61,9 +69,12 @@ int checkDirection (int x, int y, char *array, int*shipType ,int *direction,ship
 void fullscreen();
 void print_ships (ship *ships);
 
-int check_hit(int x , int y , char *array, ship *ships);
+int check_hit(int x , int y , char *array, ship *ships,int player);
 int ask_hit(int *turn);
 int check_ships(int x,int y, ship *ships);
+void count_to_win (int player);
+
+void print_win(int *player);
 
 
 #endif /* BATTLESHIP_H_ */
