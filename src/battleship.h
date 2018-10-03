@@ -15,45 +15,58 @@
 #define ROWS 10
 #define COLS 10
 
+//Define the ship code for type of ship
 int carrier     =   0;
 int battleship  =   1;
 int cruiser     =   2;
 int submarine   =   3;
 int destroyer   =   4;
 
-int N = 1;
-int E = 2;
-int S = 3;
-int W = 4;
+//Define the code for orrientation
+int N = 1; // NORTH
+int E = 2; // EAST
+int S = 3; // SOUTH
+int W = 4; // WEST
 
-#define carrier_size     5
-#define battleship_size  4
-#define cruiser_size     3
-#define submarine_size   3
-#define destroyer_size   2
 
-#define WATER   '~'
-#define SHIP    'O'
-#define HIT     'H'
-#define MISS    'X'
+//Define the size of type of ship
+#define carrier_size     5 // size of carrier    is 5
+#define battleship_size  4 // size of battleship is 4
+#define cruiser_size     3 // size of cruiser    is 3
+#define submarine_size   3 // size of submarine  is 3
+#define destroyer_size   2 // size of destroyer  is 2
+
+//Define the pattern for the grid
+#define WATER   '~' // Define '~' to representing WATER
+#define SHIP    'O' // Define 'O' to representing SHIP
+#define HIT     'H' // Define 'H' to representing HIT
+#define MISS    'X' // Define 'X' to representing MISS
+
+// Total size of ship is 45 so that player require to hit
+// 45 times in order to win
 #define WIN_CONDITION 45
 
 char array1 [ROWS][COLS];
 char array2 [ROWS][COLS];
 
+// Conter for each player
 int player1_hit = 0;
 int player2_hit = 1;
 
+// number of player
 int player = 0;
 
+//struct that store the position to determine
+// ship sunk
 typedef struct position{
         int x;
         int y;
 }Position;
 
+// struct that define the type of ship
 typedef struct ship{
-    char name[15];
-    int size;
+    char name[15]; // name of ship
+    int size; // size of ship
     Position position[5];
 }ship;
 

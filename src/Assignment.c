@@ -40,12 +40,17 @@ int main(int argc, char* argv[])
     setvbuf(stderr,NULL,_IONBF,0);
     setvbuf(stdout,NULL,_IONBF,0);
 
-
-    if (toupper(*argv[1]) == 'f'){
-        fullscreen();
+    if(argc != 2){
+        printf("Game must run in command promt with full screen (f)\n");
+        printf("Press <ENTER> to quit\n");
+        system("color 0C");
+        getchar();
+        system("color 07");
+        return 1;
     }
-    else{
-        printf("Game must run in command promt with full screen (f)");
+
+    if (toupper(*argv[1]) == 'F'){
+        fullscreen();
     }
 
     system("COLOR 0A");
@@ -191,7 +196,7 @@ int check_hit(int x , int y , char *array, ship *ships,int player){
             array[position] = HIT;
             count_to_win(player);
             print_grid(array);
-            system("color 0B");
+            system("color 0C");
             printf("HIT!\n\n");
             check_ships(x, y, ships);
             break;
@@ -786,6 +791,7 @@ int setShip (int *player, int*turn){
      print_grid(array);
 
     //Display the rule
+     /**Powered by Alex **/
     printf("Player%i: You will have:\n",*player);
     printf("Class of ship \t Size \t Number\n");
     printf("Carrier \t 5  \t 1\n");
